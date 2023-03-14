@@ -13,8 +13,9 @@ class Home(View):
     def post(self, request):
         print(Days.choices)
         # extract form data from POST
+        datestr = request.GET["dateTime"]
         # convert datetime-local string to a Python datetime
-        datetime.strptime('2015-01-02T00:00', '%Y-%m-%dT%H:%M')  # replace the first argument
+        datetime.strptime(datestr, '%Y-%m-%dT%H:%M')  # replace the first argument
         # instantiate and save a Ticket
         # to get day of the week, use strftime("%A")
         # like
@@ -32,7 +33,12 @@ class History(View):
 
     def post(self, request):
         # extract day and section from POST
-        # query (filter) for tickets
-        Ticket.objects.filter(dayOfWeek="U").values()
+        tickets = []
+        if len(request.GET) != 0:
+            day = request.GET["day"]
+            section = request.GET["section"]
+            # query (filter) for tickets
+            results = list(Ticket.objects.filter(dayOfWeek=day, section=section))
+            tickets = map(lambda ticket: [f"{ticket.section}", f"{ticket.dateTime:%H:%M}", f"{ticket.dateTime:%d/%m/%yY}"])
         # render a response (with a table of matching tickets)
-        return render(request, "history.html", {"days": Days.choices, "sections": Sections.choices})
+        return render(request, "history.html", {"days": Days.choices, "sections": Sections.choices, "tickets": tickets})
