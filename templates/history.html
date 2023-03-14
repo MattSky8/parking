@@ -20,6 +20,20 @@
     </select>
 <input type="submit">
 </form>
+{% if tickets.count != 0 %}
+<table>
+<tr>
+    <th>Section</th>
+    <th>Time</th>
+    <th>Date</th>
+</tr>
+{% for ticket in tickets %}
+<tr>
+    <td></td>
+</tr>
+{% endfor %}
+</table>
+{% endif %}
 <br/><a href="/">Enter ticket</a>
 </body>
 </html>
