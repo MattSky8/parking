@@ -29,7 +29,9 @@
 </tr>
 {% for ticket in tickets %}
 <tr>
-    <td></td>
+    <td>{{ ticket }}</td>
+    <td>{% ticket[1] %}</td>
+    <td>{% ticket[2] %}</td>
 </tr>
 {% endfor %}
 </table>
